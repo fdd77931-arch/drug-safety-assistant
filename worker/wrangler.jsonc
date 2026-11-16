@@ -1,0 +1,9 @@
+{
+ "name":"drug-safety-relay",
+ "main":"index.mjs",
+ "compatibility_date":"2026-11-16",
+ "workers_dev":true,
+ "vars":{"ALLOWED_ORIGIN":"https://fdd77931-arch.github.io","DAILY_LIMIT":"100"},
+ "durable_objects":{"bindings":[{"name":"QUOTA","class_name":"Quota"}]},
+ "migrations":[{"tag":"v1","new_sqlite_classes":["Quota"]}]
+}
