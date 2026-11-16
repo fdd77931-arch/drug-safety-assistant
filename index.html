@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e43"><title>循证 · 药物安全性助手</title><link rel="stylesheet" href="./static/style.css?v=20261116b"></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="./" aria-label="循证首页"><span class="brand-mark">循</span><span>循证<small>DRUG SAFETY ASSISTANT</small></span></a>
+  <button id="new-chat" class="new-chat"><span>＋</span> 开始新问答 <span>↗</span></button>
+  <div class="nav-label">专业知识领域</div>
+  <nav aria-label="选择文献领域">
+    <button data-category="" class="category selected" aria-pressed="true"><span class="nav-icon">◎</span><span>全部研究方向<small>跨领域检索与解释</small></span><span class="nav-dot"></span></button>
+    <button data-category="GLP-1" class="category" aria-pressed="false"><span class="nav-icon">G</span><span>GLP-1<small>代谢治疗 · 药物安全性</small></span><span class="nav-dot"></span></button>
+    <button data-category="PD-1/PD-L1" class="category" aria-pressed="false"><span class="nav-icon">P</span><span>PD-1 / PD-L1<small>免疫治疗 · irAE</small></span><span class="nav-dot"></span></button>
+    <button data-category="ADC" class="category" aria-pressed="false"><span class="nav-icon">A</span><span>ADC<small>抗体偶联药物 · 毒性</small></span><span class="nav-dot"></span></button>
+  </nav>
+  <div class="sidebar-note"><span class="tiny-orbit">✧</span><p>让每一次回答，<br>更接近证据。</p><small>专业文献检索 × DeepSeek</small></div>
+  <button id="settings" class="about-button">ⓘ 关于这个助手 <span>↗</span></button>
+</aside>
+<div class="app-shell">
+  <header class="topbar"><div><span class="status-dot"></span><span>药物安全性助手</span><span class="beta">研究版</span></div><span id="status" role="status">连接知识库中</span></header>
+  <main id="main">
+    <section id="welcome" class="welcome">
+      <div class="eyebrow"><span></span> EVIDENCE MEETS INTELLIGENCE</div>
+      <div class="hero-emblem" aria-hidden="true"><span>✳</span><i></i><i></i></div>
+      <h1>关于药物安全性，<br>一起找到<span>有依据的答案。</span></h1>
+      <p class="hero-copy">专注 GLP-1、免疫检查点抑制剂与 ADC。<br>从研究文献出发，结合 AI 解释，帮你读懂风险与证据。</p>
+      <div class="capabilities"><span>⌕ 专业文献检索</span><span>⌘ 知识融合回答</span><span>↗ 原文可追溯</span></div>
+      <div class="examples-heading">从一个问题开始 <span>也可以在下方自由提问</span></div>
+      <div class="examples">
+        <button data-question="司美格鲁肽与 NAION 风险有哪些研究证据？"><span class="topic">GLP-1 <i>代谢治疗</i></span><strong>司美格鲁肽与 NAION<br>有哪些风险证据？</strong><span class="example-arrow">↗</span></button>
+        <button data-question="帕博利珠单抗与心肌炎有什么关联？"><span class="topic">PD-1 <i>免疫治疗</i></span><strong>如何理解帕博利珠单抗<br>与心肌炎的关联？</strong><span class="example-arrow">↗</span></button>
+        <button data-question="T-DXd 与 ILD 风险及监测有哪些证据？"><span class="topic">ADC <i>抗体偶联药物</i></span><strong>T-DXd 的间质性肺病风险<br>与监测有哪些证据？</strong><span class="example-arrow">↗</span></button>
+      </div>
+    </section>
+    <section id="conversation" aria-label="问答记录" aria-live="polite"></section>
+  </main>
+  <div class="composer-dock">
+    <form id="form">
+      <label class="sr-only" for="question">输入药物安全性问题</label>
+      <textarea id="question" maxlength="2000" rows="2" placeholder="想了解哪种药物或不良反应？输入具体问题…" required></textarea>
+      <div class="composer-controls"><div class="composer-options"><label class="fallback-option"><input id="allow-model" type="checkbox" checked><span>AI 知识补充</span></label><button id="filter-toggle" type="button" class="filter-toggle" aria-expanded="false">筛选文献 <span>⌄</span></button><span id="scope">全部领域</span></div><button id="submit" type="submit" aria-label="发送问题">发送 <span>↑</span></button></div>
+      <div id="filters" hidden><label>发表年份 <input id="year-from" type="number" min="1900" max="2100" placeholder="起始年" aria-label="起始年份"> — <input id="year-to" type="number" min="1900" max="2100" placeholder="结束年" aria-label="结束年份"></label><span>仅筛选文献来源</span></div>
+    </form>
+    <div class="composer-note"><span id="message" role="status">回答供研究参考，不替代专业诊疗建议。</span><span class="keyboard-hint">Enter 发送 · Shift + Enter 换行</span></div>
+  </div>
+</div>
+<dialog id="dialog"><form method="dialog"><span class="eyebrow">ABOUT THIS ASSISTANT</span><h2>从文献出发，让问题更清楚。</h2><p>循证专注 GLP-1、PD-1 / PD-L1 与 ADC 的药物安全性问题。优先检索已有文献，再由 DeepSeek 组织回答；有出处的结论附引用，点开可查看原文和 PDF 页码。</p><p>知识库未覆盖的部分允许模型补充，并在对应段落标注“知识补充”。这些内容没有经过当前文献库核验，也不是实时联网信息。引用与逐字引文检查不等于医学结论已获验证。</p><p>等待区展示实际处理阶段，不展示模型内部推理。本版本在浏览器中按关键词和药物别名检索，不运行原版向量模型。每次提问请写明药物与问题；本页保留本次问答记录，刷新后清空。</p><div id="connection-options" hidden><label for="api-url">后端地址</label><input id="api-url" type="url" placeholder="https://your-api.example.com"><button id="save" value="save">保存连接</button></div><button value="cancel" class="dialog-close">知道了</button></form></dialog>
+<script src="./static/config.js" defer></script><script src="./static/static-client.mjs" type="module"></script><script src="./static/app.js?v=pages1" defer></script>
+</body></html>
