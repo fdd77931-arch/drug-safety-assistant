@@ -60,7 +60,7 @@ $('#question').addEventListener('keydown', e => {
 });
 function heading(label) {
   const h = node('div', undefined, 'assistant-heading');
-  h.append(node('span', '✳', 'assistant-avatar'), node('span', '循证'), node('small', label));
+  h.append(node('span', '药', 'assistant-avatar'), node('span', '药物安全助手'), node('small', label));
   return h;
 }
 function createTurn(question) {
