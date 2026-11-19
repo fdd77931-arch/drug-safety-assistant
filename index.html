@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e43"><title>循证 · 药物安全性助手</title><link rel="stylesheet" href="./static/style.css?v=20261116b"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e43"><title>药物安全助手</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%20width%3D%2240%22%20height%3D%2240%22%20aria-hidden%3D%22true%22%3E%3Crect%20width%3D%2248%22%20height%3D%2248%22%20rx%3D%2211%22%20fill%3D%22%23e2f1e8%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2320584f%22%20stroke-width%3D%222.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cg%20transform%3D%22rotate%2842%2024%2023%29%22%3E%3Crect%20x%3D%2217%22%20y%3D%228%22%20width%3D%2214%22%20height%3D%2229%22%20rx%3D%227%22%2F%3E%3Cpath%20d%3D%22M17%2023h14m-10-7v-2%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M28%2038h9%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"><link rel="stylesheet" href="./static/style.css?v=20261116b"></head>
 <body>
 <aside class="sidebar">
-  <a class="brand" href="./" aria-label="循证首页"><span class="brand-mark">循</span><span>循证<small>DRUG SAFETY ASSISTANT</small></span></a>
+  <a class="brand" href="./" aria-label="药物安全助手首页"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#e2f1e8"/><g fill="none" stroke="#20584f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><g transform="rotate(42 24 23)"><rect x="17" y="8" width="14" height="29" rx="7"/><path d="M17 23h14m-10-7v-2"/></g><path d="M28 38h9"/></g></svg><span>药物安全助手<small>DRUG SAFETY ASSISTANT</small></span></a>
   <button id="new-chat" class="new-chat"><span>＋</span> 开始新问答 <span>↗</span></button>
   <div class="nav-label">专业知识领域</div>
   <nav aria-label="选择文献领域">
@@ -16,11 +16,11 @@
   <button id="settings" class="about-button">ⓘ 关于这个助手 <span>↗</span></button>
 </aside>
 <div class="app-shell">
-  <header class="topbar"><div><span class="status-dot"></span><span>药物安全性助手</span><span class="beta">研究版</span></div><span id="status" role="status">连接知识库中</span></header>
+  <header class="topbar"><div><span class="status-dot"></span><span>药物安全助手</span><span class="beta">研究版</span></div><span id="status" role="status">连接知识库中</span></header>
   <main id="main">
     <section id="welcome" class="welcome">
       <div class="eyebrow"><span></span> EVIDENCE MEETS INTELLIGENCE</div>
-      <div class="hero-emblem" aria-hidden="true"><span>✳</span><i></i><i></i></div>
+      <div aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#e2f1e8"/><g fill="none" stroke="#20584f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><g transform="rotate(42 24 23)"><rect x="17" y="8" width="14" height="29" rx="7"/><path d="M17 23h14m-10-7v-2"/></g><path d="M28 38h9"/></g></svg></div>
       <h1>关于药物安全性，<br>一起找到<span>有依据的答案。</span></h1>
       <p class="hero-copy">专注 GLP-1、免疫检查点抑制剂与 ADC。<br>从研究文献出发，结合 AI 解释，帮你读懂风险与证据。</p>
       <div class="capabilities"><span>⌕ 专业文献检索</span><span>⌘ 知识融合回答</span><span>↗ 原文可追溯</span></div>
@@ -43,6 +43,6 @@
     <div class="composer-note"><span id="message" role="status">回答供研究参考，不替代专业诊疗建议。</span><span class="keyboard-hint">Enter 发送 · Shift + Enter 换行</span></div>
   </div>
 </div>
-<dialog id="dialog"><form method="dialog"><span class="eyebrow">ABOUT THIS ASSISTANT</span><h2>从文献出发，让问题更清楚。</h2><p>循证专注 GLP-1、PD-1 / PD-L1 与 ADC 的药物安全性问题。优先检索已有文献，再由 DeepSeek 组织回答；有出处的结论附引用，点开可查看原文和 PDF 页码。</p><p>知识库未覆盖的部分允许模型补充，并在对应段落标注“知识补充”。这些内容没有经过当前文献库核验，也不是实时联网信息。引用与逐字引文检查不等于医学结论已获验证。</p><p>等待区展示实际处理阶段，不展示模型内部推理。本版本在浏览器中按关键词和药物别名检索，不运行原版向量模型。每次提问请写明药物与问题；本页保留本次问答记录，刷新后清空。</p><div id="connection-options" hidden><label for="api-url">后端地址</label><input id="api-url" type="url" placeholder="https://your-api.example.com"><button id="save" value="save">保存连接</button></div><button value="cancel" class="dialog-close">知道了</button></form></dialog>
-<script src="./static/config.js?v=126d5b24" defer></script><script src="./static/static-client.mjs" type="module"></script><script src="./static/app.js?v=pages1" defer></script>
+<dialog id="dialog"><form method="dialog"><span class="eyebrow">ABOUT THIS ASSISTANT</span><h2>从文献出发，让问题更清楚。</h2><p>药物安全助手专注 GLP-1、PD-1 / PD-L1 与 ADC 的药物安全性问题。优先检索已有文献，再由 DeepSeek 组织回答；有出处的结论附引用，点开可查看原文和 PDF 页码。</p><p>知识库未覆盖的部分允许模型补充，并在对应段落标注“知识补充”。这些内容没有经过当前文献库核验，也不是实时联网信息。引用与逐字引文检查不等于医学结论已获验证。</p><p>等待区展示实际处理阶段，不展示模型内部推理。本版本在浏览器中按关键词和药物别名检索，不运行原版向量模型。每次提问请写明药物与问题；本页保留本次问答记录，刷新后清空。</p><div id="connection-options" hidden><label for="api-url">后端地址</label><input id="api-url" type="url" placeholder="https://your-api.example.com"><button id="save" value="save">保存连接</button></div><button value="cancel" class="dialog-close">知道了</button></form></dialog>
+<script src="./static/config.js?v=126d5b24" defer></script><script src="./static/static-client.mjs" type="module"></script><script src="./static/app.js?brand=v2&amp;v=pages1" defer></script>
 </body></html>
