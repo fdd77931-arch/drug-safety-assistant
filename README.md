@@ -36,3 +36,7 @@
 运行 `python3 research/tools/build_catalog.py --db /tmp/drug-research.sqlite --output research/catalog.json` 更新试验与书目快照。调试时可用 `--sources` 指定已下载的原始 JSON 目录。SQLite 数据库用于本地核对结构化实体与关联，公开网页读取导出的 JSON。报告是可编辑的来源摘要草稿。监管查询目前通过官方链接打开。
 
 首页的药物安全知识库可浏览已收录文献，或按领域、药名、不良事件和 DOI 检索片段。浏览和检索复用公开语料与原有浏览器 BM25，问答继续使用服务端生成与逐字引文校验。
+
+### 可选百炼推理服务
+
+Worker 默认使用已配置的 DeepSeek。切换百炼时，在服务端设置 `MODEL_PROVIDER=bailian`、`BAILIAN_BASE_URL`（百炼工作空间的 OpenAI 兼容 HTTPS Base URL）和 `BAILIAN_MODEL`（该空间可用并支持 JSON 对象输出的模型 ID）。在 Worker 的 Secret 管理入口设置 `BAILIAN_API_KEY`，再测试已配置额度、有效引文和上游错误。百炼模式仍使用站内语料检索、原始引文校验和同一调用额度。
