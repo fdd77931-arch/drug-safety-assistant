@@ -5,27 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101a23">
 <title>Drug Intelligence AI · 药物研究工作台</title>
-<link rel="stylesheet" href="./research/workspace.css">
+<link rel="stylesheet" href="./research/workspace.css?v=safety1">
 <script type="module" src="./research/workspace.js"></script>
+<script type="module" src="./research/safety-library.js"></script>
 </head>
 <body>
 <aside>
 <a class="brand" href="#">Drug Intelligence AI<span>药物研究工作台</span></a>
 <nav aria-label="研究模块">
 <a href="#explorer">药物全景</a><a href="#pipeline">研发管线</a>
-<a href="#trials">临床研究</a><a href="./safety.html">药物安全 ↗</a>
+<a href="#trials">临床研究</a><a href="#safety-library" class="safety-nav">药物安全</a>
 <a href="#literature">文献证据</a><a href="#industry">产业情报</a>
 <a href="#saved">我的研究</a>
 </nav>
 </aside>
 <main>
 <header class="intro">
-<h1>从药物找到研究证据</h1>
-<p>查药物档案、试验登记结果与关联文献。</p>
+<p class="product-label">Drug Intelligence AI</p>
+<h1>查药物风险，<br>回到原始证据</h1>
+<p>检索药物或不良反应，直接打开文献片段和 PDF 页码。</p>
+<div class="links"><a class="primary" href="#safety-library">检索安全知识库</a><a href="./safety.html">药物安全问答 ↗</a></div>
+</header>
+<section id="safety-library" aria-labelledby="safety-title">
+<h2 id="safety-title">药物安全知识库</h2>
+<p>覆盖 GLP-1、PD-1 / PD-L1 和 ADC。可按领域浏览，也可用药物名、不良事件或 DOI 检索。</p>
+<form id="evidence-form" class="evidence-form">
+<div><label for="evidence-query">药物、风险事件或 DOI</label><input id="evidence-query" type="search" maxlength="200" placeholder="例如 司美格鲁肽 NAION"></div>
+<div><label for="evidence-area">研究领域</label><select id="evidence-area"><option value="">全部领域</option><option>GLP-1</option><option>PD-1/PD-L1</option><option>ADC</option></select></div>
+<button type="submit">检索证据</button>
+</form>
+<div id="evidence-examples" class="links">
+<button type="button" data-evidence="司美格鲁肽 NAION">司美格鲁肽 · NAION</button>
+<button type="button" data-evidence="帕博利珠单抗 心肌炎">帕博利珠单抗 · 心肌炎</button>
+<button type="button" data-evidence="T-DXd ILD">T-DXd · 间质性肺病</button>
+</div>
+<p id="evidence-status" role="status"></p>
+<div id="evidence-results"></div>
+</section>
+<div class="catalog-search">
 <label for="search">搜索药物、商品名、靶点、研究适应证或登记号</label>
 <input id="search" type="search" placeholder="例如 Keytruda、EGFR 或 NCT03548935">
-</header>
 <p id="status" role="status">正在读取数据…</p>
+</div>
 <section id="explorer"><h2>药物全景</h2><div id="drugs" class="cards"></div><div id="profile" tabindex="-1"></div></section>
 <section id="pipeline"><h2>研发管线</h2><p>状态与阶段来自所选试验登记。</p><div id="pipeline-data"></div></section>
 <section id="trials"><h2>临床研究</h2><div id="trial-data"></div></section>

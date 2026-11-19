@@ -9,7 +9,18 @@ function load() {
 }
 export async function health() {
  const {corpus}=await load();
- return {chunks:corpus.chunks.length,documents:corpus.documents,answer_generation:!!window.EVIDENCE_API};
+ const endpoint=(window.EVIDENCE_API||'').replace(/\/$/, '');
+ let answer_generation=false;
+ if(endpoint) {
+  try {
+   const response=await fetch(endpoint+'/health',{signal:AbortSignal.timeout(4500)});
+   if(response.ok) {
+    const remote=await response.json();
+    answer_generation=remote.configured===true&&remote.version===corpus.version;
+   }
+  } catch {}
+ }
+ return {chunks:corpus.chunks.length,documents:corpus.documents,answer_generation};
 }
 export function pdf(path){return new URL(path,base).href}
 export async function ask(payload,onEvent,signal) {

@@ -12,7 +12,7 @@ function node(tag, text, cls) {
 async function health() {
   try {
     const h = pagesClient ? await (await pagesClient).health() : await (async () => {const r = await fetch(url('/health'), {signal: AbortSignal.timeout(15000)}); if(!r.ok) throw Error(); return r.json();})();
-    $('#status').textContent = h.answer_generation ? '知识库已连接 · 可以提问' : '知识库已连接 · 仅检索';
+    $('#status').textContent = h.answer_generation ? '知识库可用 · 回答接口已连接' : '知识库可用 · 回答接口未确认';
   } catch { $('#status').textContent = '服务连接中 · 请稍后重试'; }
 }
 $('.examples').querySelectorAll('button').forEach(b => b.onclick = () => {
@@ -60,7 +60,7 @@ $('#question').addEventListener('keydown', e => {
 });
 function heading(label) {
   const h = node('div', undefined, 'assistant-heading');
-  h.append(node('span', '药', 'assistant-avatar'), node('span', '药物安全助手'), node('small', label));
+  h.append(node('span', '药物安全助手'), node('small', label));
   return h;
 }
 function createTurn(question) {
@@ -218,4 +218,6 @@ $('#form').onsubmit = async e => {
     $('#submit').replaceChildren(document.createTextNode('发送 '), node('span', '↑'));
   }
 };
+const importedQuestion = new URLSearchParams(location.search).get('q');
+if (importedQuestion) $('#question').value = importedQuestion.slice(0, 2000);
 health();

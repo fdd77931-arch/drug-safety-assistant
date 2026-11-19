@@ -34,3 +34,5 @@
 根页面为五药研究目录，原安全性问答可从 `safety.html` 打开。目录来自 ClinicalTrials.gov API v2 和 PubMed 书目响应。页面显示取回日期，单项研究显示自己的登记更新时间。收藏、最近研究和报告草稿保存在当前浏览器。
 
 运行 `python3 research/tools/build_catalog.py --db /tmp/drug-research.sqlite --output research/catalog.json` 更新试验与书目快照。调试时可用 `--sources` 指定已下载的原始 JSON 目录。SQLite 数据库用于本地核对结构化实体与关联，公开网页读取导出的 JSON。报告是可编辑的来源摘要草稿。监管查询目前通过官方链接打开。
+
+首页的药物安全知识库可浏览已收录文献，或按领域、药名、不良事件和 DOI 检索片段。浏览和检索复用公开语料与原有浏览器 BM25，问答继续使用服务端生成与逐字引文校验。
