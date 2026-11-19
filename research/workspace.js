@@ -1,3 +1,5 @@
+import {readEvidence, removeEvidence, evidencePdf, evidenceMarkdown} from './saved-evidence.js';
+
 const $ = id => document.getElementById(id);
 const storageKey = 'drug-intelligence-research-v1';
 let saved = {favorites: [], recent: [], reports: {}};
@@ -53,6 +55,40 @@ function report(drug) {
     '', '数据取回日期：' + catalog.retrieved,
   ].join('\n');
 }
+function renderSavedEvidence() {
+  const target = $('saved-evidence');
+  const entries = readEvidence();
+  target.replaceChildren(el('h3','药物安全证据'));
+  if (!entries.length) target.append(el('p','在安全知识库收藏检索到的原文片段，可在这里加入报告草稿。'));
+  for (const entry of entries) {
+    const card = el('article','','record');
+    const actions = el('div','','record-actions');
+    const add = button('加入当前草稿',()=>{
+      if (!current) return;
+      const draft = $('draft');
+      const passage = evidenceMarkdown(entry);
+      if (draft.value.includes(passage)) {
+        $('save-status').textContent = '当前草稿已有这条证据。';
+      } else {
+        draft.value = (draft.value.trimEnd() || report(current)) + '\n\n' + passage + '\n';
+        $('save-status').textContent = '证据已加入「'+current.name+'」草稿。保存后可再次打开。';
+      }
+      draft.focus();
+    });
+    add.disabled = !current;
+    if (current) add.setAttribute('aria-label','加入当前草稿 · '+current.name);
+    actions.append(link('查看 PDF 原页 ↗', evidencePdf(entry)),add,
+      button('移除片段',()=>{
+        try { removeEvidence(entry.id); }
+        catch { $('save-status').textContent = '当前浏览器无法更新收藏。'; }
+      }));
+    card.append(el('strong',entry.title),el('p','PDF 第 '+(entry.pages?.join('、') || '未标注')+' 页'),actions);
+    target.append(card);
+  }
+}
+window.addEventListener('safety-evidence-change',renderSavedEvidence);
+renderSavedEvidence();
+
 function renderLibrary() {
   const items = $('library');
   items.replaceChildren();
@@ -89,6 +125,7 @@ function showDetail(drug, moveFocus = true) {
   if (!drug) return;
   if (current?.id !== drug.id || !$('draft').value) $('draft').value = saved.reports[drug.id] || '';
   current = drug;
+  renderSavedEvidence();
   if (moveFocus) {
     saved.recent = [drug.id,...saved.recent.filter(id=>id!==drug.id)].slice(0,10);
     persist();

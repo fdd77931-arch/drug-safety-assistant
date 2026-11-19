@@ -1,3 +1,4 @@
+import {readEvidence, saveEvidence} from './saved-evidence.js';
 import {BrowserSearch} from '../static/retrieval.mjs';
 
 const form = document.querySelector('#evidence-form');
@@ -46,7 +47,7 @@ function loadLibrary() {
   return loading;
 }
 
-function sourceCard(chunk, credits, question) {
+function sourceCard(chunk, credits, question, corpusVersion) {
   const metadata = chunk.metadata;
   const credit = credits[metadata.document_id];
   const card = element('article', '', 'record');
@@ -58,7 +59,26 @@ function sourceCard(chunk, credits, question) {
   const links = element('div', '', 'links');
   links.append(anchor(question && firstPage ? '打开 PDF 第 '+firstPage+' 页 ↗' : '打开原文 PDF ↗',pdf+(question && firstPage ? '#page='+firstPage : '')));
   if (metadata.doi) links.append(anchor('出版来源 ↗','https://doi.org/'+metadata.doi));
-  if (question) links.append(anchor('继续问这个问题','./safety.html?q='+encodeURIComponent(question)));
+  if (question) {
+    const saved = readEvidence().some(item => item.id === corpusVersion + ':' + chunk.chunk_id);
+    const add = element('button', saved ? '已收藏片段' : '收藏片段');
+    add.type = 'button';
+    add.dataset.evidenceId = corpusVersion + ':' + chunk.chunk_id;
+    add.disabled = saved;
+    const feedback = element('span','');
+    feedback.setAttribute('role','status');
+    add.addEventListener('click', () => {
+      try {
+        saveEvidence(chunk, corpusVersion);
+        add.textContent = '已收藏片段';
+        add.disabled = true;
+        feedback.textContent = '可在「我的研究」找到。';
+      } catch (error) {
+        feedback.textContent = error.message || '当前浏览器无法保存。';
+      }
+    });
+    links.append(anchor('继续问这个问题','./safety.html?q='+encodeURIComponent(question)),add,feedback);
+  }
   card.append(links);
   if (question) {
     const detail = element('details');
@@ -85,7 +105,7 @@ async function render() {
     status.textContent = question
       ? found.length ? '返回 '+found.length+' 篇匹配文献 · 语料版本 '+corpus.version : '没有匹配证据。可试用英文药名、事件简称或 DOI。'
       : '当前领域 '+filtered.length+' 篇 · 已显示 '+found.length+' 篇 · 全库 '+corpus.chunks.length+' 个片段';
-    for (const item of found) output.append(sourceCard(item,credits,question));
+    for (const item of found) output.append(sourceCard(item,credits,question,corpus.version));
     if (!question && shown<filtered.length) {
       const more = element('button','查看更多文献');
       more.type='button';
@@ -107,3 +127,11 @@ document.querySelector('#evidence-examples').addEventListener('click',event=>{
   form.requestSubmit();
 });
 render();
+
+window.addEventListener('safety-evidence-change', () => {
+  const ids = new Set(readEvidence().map(item => item.id));
+  for (const control of output.querySelectorAll('[data-evidence-id]')) {
+    control.disabled = ids.has(control.dataset.evidenceId);
+    control.textContent = control.disabled ? '已收藏片段' : '收藏片段';
+  }
+});

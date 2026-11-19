@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#101a23">
 <title>Drug Intelligence AI · 药物研究工作台</title>
 <link rel="stylesheet" href="./research/workspace.css?v=safety1">
-<script type="module" src="./research/workspace.js"></script>
-<script type="module" src="./research/safety-library.js"></script>
+<script type="module" src="./research/workspace.js?v=evidence2"></script>
+<script type="module" src="./research/safety-library.js?v=evidence2"></script>
 </head>
 <body>
 <aside>
@@ -52,7 +52,7 @@
 <section id="trials"><h2>临床研究</h2><div id="trial-data"></div></section>
 <section id="literature"><h2>文献证据</h2><div id="papers"></div></section>
 <section id="industry"><h2>产业情报</h2><p>首版提供监管查询入口。审批动态和授权合作数据待接入。</p><div class="links"><a href="https://www.accessdata.fda.gov/scripts/cder/daf/">Drugs@FDA ↗</a><a href="https://www.ema.europa.eu/en/medicines/download-medicine-data">EMA 药品数据 ↗</a><a href="https://www.nmpa.gov.cn/datasearch/home-index.html">NMPA 数据查询 ↗</a></div></section>
-<section id="saved"><h2>我的研究</h2><p>收藏与报告草稿保存在当前浏览器。</p><h3>收藏与最近研究</h3><div id="library"></div><h3>研究报告草稿</h3><div id="reports"></div><label for="draft">编辑当前草稿</label><textarea id="draft" rows="9"></textarea><div class="links"><button type="button" id="save-report">保存当前草稿</button><button type="button" id="download">导出 Markdown</button></div><p id="save-status" role="status"></p></section>
+<section id="saved"><h2>我的研究</h2><p>收藏与报告草稿保存在当前浏览器。</p><h3>收藏与最近研究</h3><div id="library"></div><div id="saved-evidence"></div><h3>研究报告草稿</h3><div id="reports"></div><label for="draft">编辑当前草稿</label><textarea id="draft" rows="9"></textarea><div class="links"><button type="button" id="save-report">保存当前草稿</button><button type="button" id="download">导出 Markdown</button></div><p id="save-status" role="status"></p></section>
 <footer>供科学研究与产品演示。临床使用请核对正式来源。</footer>
 </main>
 </body>
