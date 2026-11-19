@@ -28,3 +28,9 @@
 静态页面使用 GitHub Pages；接口使用 Cloudflare Free，DeepSeek 按实际调用量收费。代理每日最多接受 100 次生成请求，每次最多调用模型 2 次，每个 IP 每分钟最多 6 次。该限制不是人民币金额上限，也不能防止所有滥用。达到额度后仍可检索文献。任何付费升级须由账户持有人决定。
 
 引文校验仅验证引用 ID 和逐字原文，不保证医学结论必然由该原文支持。回答供研究和技术演示，不替代诊疗意见。
+
+## Drug Intelligence AI 研究工作台
+
+根页面为五药研究目录，原安全性问答可从 `safety.html` 打开。目录来自 ClinicalTrials.gov API v2 和 PubMed 书目响应。页面显示取回日期，单项研究显示自己的登记更新时间。收藏、最近研究和报告草稿保存在当前浏览器。
+
+运行 `python3 research/tools/build_catalog.py --db /tmp/drug-research.sqlite --output research/catalog.json` 更新试验与书目快照。调试时可用 `--sources` 指定已下载的原始 JSON 目录。SQLite 数据库用于本地核对结构化实体与关联，公开网页读取导出的 JSON。报告是可编辑的来源摘要草稿。监管查询目前通过官方链接打开。
