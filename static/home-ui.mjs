@@ -40,5 +40,27 @@ function showRecent() {
   }
 }
 showRecent();
-new MutationObserver(showRecent).observe(document.querySelector('#welcome'), {attributes:true, attributeFilter:['hidden']});
+new MutationObserver(() => {
+  showRecent();
+  const inChat = document.querySelector('#welcome').hidden;
+  for (const link of document.querySelectorAll('.home-rail a')) {
+    if (inChat) {
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.setAttribute('aria-label',link.textContent.trim()+'（在新标签页打开）');
+    } else {
+      link.removeAttribute('target');
+      link.removeAttribute('aria-label');
+    }
+  }
+}).observe(document.querySelector('#welcome'), {attributes:true, attributeFilter:['hidden']});
 window.addEventListener('drug-safety-history', showRecent);
+
+const smallScreen = matchMedia('(max-width: 820px)');
+function sizeRail() { document.querySelector('.home-links').open = !smallScreen.matches; }
+sizeRail();
+smallScreen.addEventListener('change', sizeRail);
+const header = document.querySelector('drug-navigation');
+new ResizeObserver(() => {
+  document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+}).observe(header);

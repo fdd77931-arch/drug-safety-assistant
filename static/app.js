@@ -37,6 +37,7 @@ $('#ask-areas').addEventListener('click', event => {
 });
 $('#new-chat').onclick = () => {
   if (busy) return;
+  $('#question').placeholder = '请输入药物名称、不良反应或你想研究的问题……';
   previous = null; $('#conversation').replaceChildren(); $('#welcome').hidden = false;
   $('#question').value = ''; $('#question').focus();
   $('#message').textContent = '回答供研究参考，不替代专业诊疗建议。';
@@ -84,7 +85,10 @@ function createTurn(question) {
   }
   panel.append(title, steps, node('p', '正在连接问答服务…', 'progress-detail'), node('div', undefined, 'skeleton'), node('div', undefined, 'skeleton short'));
   turn.append(panel); $('#conversation').append(turn); $('#welcome').hidden = true;
-  turn.scrollIntoView({block: 'start', behavior: 'auto'});
+  $('#question').placeholder = '继续追问这个药物、风险或证据……';
+  const chat = $('#conversation');
+  chat.scrollTop += turn.getBoundingClientRect().top - chat.getBoundingClientRect().top;
+  if (turnCount === 1) window.scrollTo({top:0});
   return turn;
 }
 function updateProgress(turn, event) {
