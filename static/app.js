@@ -133,12 +133,12 @@ function show(data, turn) {
       card.id = turn.id + '-' + h.evidence_id;
       const title = node('div', undefined, 'source-title');
       title.append(node('span', h.evidence_id, 'badge'), document.createTextNode(m.title || '文献题名待核查'));
-      card.append(title, node('div', (m.year ?? '年份待核查') + ' · PDF 第 ' + m.pages.join('、') + ' 页' + (cited.has(h.evidence_id) ? ' · 已引用' : ' · 候选片段'), 'source-meta'));
+      card.append(title, node('div', (m.source_type === 'label' ? '美国药品说明书 · ' + m.section : (m.year ?? '年份待核查') + ' · PDF 第 ' + m.pages.join('、') + ' 页') + (cited.has(h.evidence_id) ? ' · 已引用' : ' · 候选片段'), 'source-meta'));
       if (m.doi) card.append(node('div', 'DOI ' + m.doi, 'source-meta'));
       card.append(node('div', h.rerank_window.text, 'quote'));
       if (m.quality_flags?.length) card.append(node('p', '解析存在待审核标记，关键数值请核查原文。', 'source-notice'));
-      const link = node('a', '查看原始 PDF ↗', 'pdf-link');
-      link.href = (window.PAGES_MODE ? new URL(h.source.pdf_endpoint.split('#')[0], document.baseURI).href : url(h.source.pdf_endpoint.split('#')[0])) + '#page=' + m.pages[0];
+      const link = node('a', m.source_url ? '查看官方说明书 ↗' : '查看原始 PDF ↗', 'pdf-link');
+      link.href = m.source_url || (window.PAGES_MODE ? new URL(h.source.pdf_endpoint.split('#')[0], document.baseURI).href : url(h.source.pdf_endpoint.split('#')[0])) + '#page=' + m.pages[0];
       link.target = '_blank'; link.rel = 'noopener';
       card.append(link); list.append(card);
     }

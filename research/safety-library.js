@@ -57,7 +57,8 @@ function sourceCard(chunk, credits, question, corpusVersion) {
     element('p', [metadata.year, ...(metadata.drug_category || []), credit?.license, metadata.doi].filter(Boolean).join(' · ')));
   if (credit?.authors?.length) card.append(element('p',credit.authors.join('、')));
   const links = element('div', '', 'links');
-  links.append(anchor(question && firstPage ? '打开 PDF 第 '+firstPage+' 页 ↗' : '打开原文 PDF ↗',pdf+(question && firstPage ? '#page='+firstPage : '')));
+  if (metadata.source_url) links.append(anchor('查看官方说明书 ↗',metadata.source_url));
+  else links.append(anchor(question && firstPage ? '打开 PDF 第 '+firstPage+' 页 ↗' : '打开原文 PDF ↗',pdf+(question && firstPage ? '#page='+firstPage : '')));
   if (metadata.doi) links.append(anchor('出版来源 ↗','https://doi.org/'+metadata.doi));
   if (question) {
     const saved = readEvidence().some(item => item.id === corpusVersion + ':' + chunk.chunk_id);
@@ -77,12 +78,12 @@ function sourceCard(chunk, credits, question, corpusVersion) {
         feedback.textContent = error.message || '当前浏览器无法保存。';
       }
     });
-    links.append(anchor('继续问这个问题','./safety.html?q='+encodeURIComponent(question)),add,feedback);
+    links.append(anchor('继续问这个问题','./?q='+encodeURIComponent(question)),add,feedback);
   }
   card.append(links);
   if (question) {
     const detail = element('details');
-    detail.append(element('summary', '查看命中文段 · PDF 第 '+metadata.pages.join('、')+' 页'),
+    detail.append(element('summary', metadata.source_type === 'label' ? '查看说明书摘录 · '+metadata.section : '查看命中文段 · PDF 第 '+metadata.pages.join('、')+' 页'),
       element('p',chunk.rerank_window?.text || chunk.text,'source-excerpt'));
     if (metadata.quality_flags?.length) detail.append(element('p','此片段有自动抽取质量标记，请以 PDF 原文为准。'));
     card.append(detail);
@@ -103,11 +104,11 @@ async function render() {
     const exact = question ? filtered.filter(({metadata})=>metadata.doi?.toLowerCase()===normalizedDoi) : [];
     const found = !question ? filtered.slice(0,shown) : exact.length ? exact : search.query({question,category,k:5}).results;
     status.textContent = question
-      ? found.length ? '返回 '+found.length+' 篇匹配文献 · 语料版本 '+corpus.version : '没有匹配证据。可试用英文药名、事件简称或 DOI。'
-      : '当前领域 '+filtered.length+' 篇 · 已显示 '+found.length+' 篇 · 全库 '+corpus.chunks.length+' 个片段';
+      ? found.length ? '返回 '+found.length+' 份匹配文献 · 语料版本 '+corpus.version : '没有匹配证据。可试用英文药名、事件简称或 DOI。'
+      : '当前领域 '+filtered.length+' 份 · 已显示 '+found.length+' 份 · 全库 '+corpus.chunks.length+' 个片段';
     for (const item of found) output.append(sourceCard(item,credits,question,corpus.version));
     if (!question && shown<filtered.length) {
-      const more = element('button','查看更多文献');
+      const more = element('button','查看更多资料');
       more.type='button';
       more.onclick = ()=>{shown+=browseLimit;render();};
       output.append(more);

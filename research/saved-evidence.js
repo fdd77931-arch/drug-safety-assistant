@@ -23,6 +23,7 @@ export function saveEvidence(chunk, corpusVersion) {
     doi: metadata.doi,
     documentId: metadata.document_id,
     pages: metadata.pages,
+    sourceUrl: metadata.source_url,
     section: metadata.section,
     excerpt: chunk.rerank_window?.text || chunk.text,
     qualityFlags: metadata.quality_flags || [],
@@ -40,6 +41,7 @@ export function removeEvidence(id) {
 }
 
 export function evidencePdf(entry) {
+  if (entry.sourceUrl) return entry.sourceUrl;
   const page = entry.pages?.[0];
   return './corpus/pdfs/' + encodeURIComponent(entry.documentId) + '.pdf' + (page ? '#page=' + page : '');
 }
@@ -49,7 +51,7 @@ export function evidenceMarkdown(entry) {
   return [
     '### ' + entry.title,
     '',
-    'PDF 页码 ' + (entry.pages?.join('、') || '未标注') + ' · 语料版本 ' + entry.corpusVersion,
+    (entry.sourceUrl ? '说明书章节 ' + entry.section : 'PDF 页码 ' + (entry.pages?.join('、') || '未标注')) + ' · 语料版本 ' + entry.corpusVersion,
     '',
     entry.doi ? 'DOI https://doi.org/' + entry.doi : '',
     '原文 ' + pdf,

@@ -1,1 +1,165 @@
-{"drugs": {"semaglutide": ["司美格鲁肽", "semaglutide", "ozempic", "wegovy", "rybelsus"], "liraglutide": ["利拉鲁肽", "liraglutide", "victoza", "saxenda"], "tirzepatide": ["替尔泊肽", "tirzepatide", "mounjaro", "zepbound"], "dulaglutide": ["度拉糖肽", "dulaglutide", "trulicity"], "exenatide": ["艾塞那肽", "exenatide", "byetta", "bydureon"], "pembrolizumab": ["帕博利珠单抗", "pembrolizumab", "keytruda"], "nivolumab": ["纳武利尤单抗", "nivolumab", "opdivo"], "atezolizumab": ["阿替利珠单抗", "atezolizumab", "tecentriq"], "durvalumab": ["度伐利尤单抗", "durvalumab", "imfinzi"], "trastuzumab deruxtecan": ["德曲妥珠单抗", "trastuzumab deruxtecan", "t-dxd", "ds-8201", "enhertu"], "trastuzumab emtansine": ["恩美曲妥珠单抗", "trastuzumab emtansine", "t-dm1", "kadcyla"], "sacituzumab govitecan": ["戈沙妥珠单抗", "sacituzumab govitecan", "trodelvy"], "enfortumab vedotin": ["维恩妥尤单抗", "enfortumab vedotin", "padcev"], "disitamab vedotin": ["维迪西妥单抗", "disitamab vedotin", "rc48"]}, "events": {"NAION": ["naion", "非动脉炎性前部缺血性视神经病变", "nonarteritic anterior ischemic optic neuropathy", "non-arteritic anterior ischaemic optic neuropathy", "non-arteritic anterior ischemic optic neuropathy"], "myocarditis": ["心肌炎", "myocarditis"], "ILD": ["ild", "间质性肺病", "interstitial lung disease", "pneumonitis"], "pancreatitis": ["胰腺炎", "pancreatitis"], "colitis": ["结肠炎", "colitis"], "neutropenia": ["中性粒细胞减少", "neutropenia"], "hypothyroidism": ["甲状腺功能减退", "hypothyroidism"], "nausea": ["恶心", "nausea"], "vomiting": ["呕吐", "vomiting"], "diarrhea": ["腹泻", "diarrhea", "diarrhoea"], "hypoglycemia": ["低血糖", "hypoglycemia"], "alopecia": ["脱发", "alopecia", "hair loss"], "cardiotoxicity": ["心脏毒性", "cardiotoxicity"], "gallbladder": ["胆囊", "gallbladder", "cholelithiasis"]}}
+{
+  "drugs": {
+    "semaglutide": [
+      "司美格鲁肽",
+      "semaglutide",
+      "ozempic",
+      "wegovy",
+      "rybelsus"
+    ],
+    "liraglutide": [
+      "利拉鲁肽",
+      "liraglutide",
+      "victoza",
+      "saxenda"
+    ],
+    "tirzepatide": [
+      "替尔泊肽",
+      "tirzepatide",
+      "mounjaro",
+      "zepbound"
+    ],
+    "dulaglutide": [
+      "度拉糖肽",
+      "dulaglutide",
+      "trulicity"
+    ],
+    "exenatide": [
+      "艾塞那肽",
+      "exenatide",
+      "byetta",
+      "bydureon"
+    ],
+    "pembrolizumab": [
+      "帕博利珠单抗",
+      "pembrolizumab",
+      "keytruda"
+    ],
+    "nivolumab": [
+      "纳武利尤单抗",
+      "nivolumab",
+      "opdivo"
+    ],
+    "atezolizumab": [
+      "阿替利珠单抗",
+      "atezolizumab",
+      "tecentriq"
+    ],
+    "durvalumab": [
+      "度伐利尤单抗",
+      "durvalumab",
+      "imfinzi"
+    ],
+    "trastuzumab deruxtecan": [
+      "德曲妥珠单抗",
+      "trastuzumab deruxtecan",
+      "t-dxd",
+      "ds-8201",
+      "enhertu"
+    ],
+    "trastuzumab emtansine": [
+      "恩美曲妥珠单抗",
+      "trastuzumab emtansine",
+      "t-dm1",
+      "kadcyla"
+    ],
+    "sacituzumab govitecan": [
+      "戈沙妥珠单抗",
+      "sacituzumab govitecan",
+      "trodelvy"
+    ],
+    "enfortumab vedotin": [
+      "维恩妥尤单抗",
+      "enfortumab vedotin",
+      "padcev"
+    ],
+    "disitamab vedotin": [
+      "维迪西妥单抗",
+      "disitamab vedotin",
+      "rc48"
+    ],
+    "osimertinib": [
+      "奥希替尼",
+      "osimertinib",
+      "Tagrisso",
+      "AZD9291"
+    ],
+    "upadacitinib": [
+      "乌帕替尼",
+      "upadacitinib",
+      "Rinvoq",
+      "ABT-494"
+    ]
+  },
+  "events": {
+    "NAION": [
+      "naion",
+      "非动脉炎性前部缺血性视神经病变",
+      "nonarteritic anterior ischemic optic neuropathy",
+      "non-arteritic anterior ischaemic optic neuropathy",
+      "non-arteritic anterior ischemic optic neuropathy"
+    ],
+    "myocarditis": [
+      "心肌炎",
+      "myocarditis"
+    ],
+    "ILD": [
+      "ild",
+      "间质性肺病",
+      "interstitial lung disease",
+      "pneumonitis"
+    ],
+    "pancreatitis": [
+      "胰腺炎",
+      "pancreatitis"
+    ],
+    "colitis": [
+      "结肠炎",
+      "colitis"
+    ],
+    "neutropenia": [
+      "中性粒细胞减少",
+      "neutropenia"
+    ],
+    "hypothyroidism": [
+      "甲状腺功能减退",
+      "hypothyroidism"
+    ],
+    "nausea": [
+      "恶心",
+      "nausea"
+    ],
+    "vomiting": [
+      "呕吐",
+      "vomiting"
+    ],
+    "diarrhea": [
+      "腹泻",
+      "diarrhea",
+      "diarrhoea"
+    ],
+    "hypoglycemia": [
+      "低血糖",
+      "hypoglycemia"
+    ],
+    "alopecia": [
+      "脱发",
+      "alopecia",
+      "hair loss"
+    ],
+    "cardiotoxicity": [
+      "心脏毒性",
+      "cardiotoxicity"
+    ],
+    "gallbladder": [
+      "胆囊",
+      "gallbladder",
+      "cholelithiasis"
+    ],
+    "serious infections": [
+      "严重感染",
+      "serious infections",
+      "serious infection"
+    ]
+  }
+}

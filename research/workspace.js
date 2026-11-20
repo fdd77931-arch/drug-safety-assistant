@@ -77,12 +77,12 @@ function renderSavedEvidence() {
     });
     add.disabled = !current;
     if (current) add.setAttribute('aria-label','加入当前草稿 · '+current.name);
-    actions.append(link('查看 PDF 原页 ↗', evidencePdf(entry)),add,
+    actions.append(link(entry.sourceUrl ? '查看官方说明书 ↗' : '查看 PDF 原页 ↗', evidencePdf(entry)),add,
       button('移除片段',()=>{
         try { removeEvidence(entry.id); }
         catch { $('save-status').textContent = '当前浏览器无法更新收藏。'; }
       }));
-    card.append(el('strong',entry.title),el('p','PDF 第 '+(entry.pages?.join('、') || '未标注')+' 页'),actions);
+    card.append(el('strong',entry.title),el('p',entry.sourceUrl ? '说明书 · '+entry.section : 'PDF 第 '+(entry.pages?.join('、') || '未标注')+' 页'),actions);
     target.append(card);
   }
 }
@@ -136,7 +136,7 @@ function showDetail(drug, moveFocus = true) {
   profile.replaceChildren(el('h3',drug.name+' · '+drug.generic),
     facts([['研究标签',drug.fields.join('、')],['靶点',drug.targets.join('、')],
       ['样例试验人群',drug.conditions.join('、')],['检索别名',drug.aliases.join('、')]]),
-    link('打开药物安全问答 ↗','./safety.html'),
+    link('打开药物安全问答 ↗','./'),
     el('p','获批适应证与分地区标签需另行核对。'));
   $('pipeline-data').replaceChildren(facts([['登记研究',t.id],['申办方',t.sponsor],['阶段',t.phases.join(' / ')],['登记状态',t.status],['来源更新',t.updated]]),link('查看登记记录 ↗',trialUrl(t.id)));
   const trial = $('trial-data');
