@@ -1,18 +1,23 @@
 // Europe PMC REST search, resultType=core includes identifiers and abstracts.
 // https://europepmc.org/RestfulWebService
+import {lookup} from './ncbi.mjs';
 export async function searchPapers(term,scope,signal) {
   const url=new URL('https://www.ebi.ac.uk/europepmc/webservices/rest/search');
   const query='('+term+') AND SRC:MED'+(scope==='pmc'?' AND OPEN_ACCESS:Y AND IN_PMC:Y':'');
   url.search=new URLSearchParams({query,format:'json',resultType:'core',pageSize:'8'});
-  let response;
-  if(window.EVIDENCE_API){
+  async function relayed(){
     const endpoint=new URL('literature',window.EVIDENCE_API.replace(/\/?$/,'/'));
     endpoint.search=new URLSearchParams({term,scope});
-    try{response=await fetch(endpoint,{signal:AbortSignal.any([signal,AbortSignal.timeout(10000)]),credentials:'omit'});}catch{}
+    const r=await fetch(endpoint,{signal,credentials:'omit'});
+    if(!r.ok)throw Error('中转服务暂时不可用');
+    return r.json();
   }
-  if(!response?.ok)response=await fetch(url,{signal,credentials:'omit'});
-  if(!response.ok)throw Error('Europe PMC '+response.status);
-  const data=await response.json();
+  let data;
+  try{data=await lookup(term,scope,AbortSignal.any([signal,AbortSignal.timeout(6000)]));}
+  catch{
+    const europe=async()=>{const r=await fetch(url,{signal,credentials:'omit'});if(!r.ok)throw Error();return r.json();};
+    data=await Promise.any(window.EVIDENCE_API?[relayed(),europe()]:[europe()]);
+  }
   const results=data.resultList.result.flatMap(item=>{
     const pmid=String(item.pmid||'');
 

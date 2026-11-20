@@ -93,7 +93,7 @@ function sourceCard(chunk, credits, question, corpusVersion) {
         saveEvidence(chunk, corpusVersion);
         add.textContent = '已收藏片段';
         add.disabled = true;
-        feedback.textContent = '可在「我的研究」找到。';
+        feedback.textContent = '可在「我的收藏」找到。';
       } catch (error) {
         feedback.textContent = error.message || '当前浏览器无法保存。';
       }
