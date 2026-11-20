@@ -1,0 +1,47 @@
+body.home{background:#f7faf9;color:#183f40}
+.home-main{max-width:1240px;margin:auto;padding:32px clamp(16px,4vw,54px) 28px}
+.query-hero{border:1px solid #dbe8e2;border-radius:24px;background:radial-gradient(ellipse at 95% 0%,#cfe8de 0,transparent 52%),linear-gradient(115deg,#eff6f2,#f5faf7);padding:clamp(22px,4vw,48px);position:relative}
+.home-label{color:#316f61;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600}
+.home-label span{width:8px;height:8px;background:#479780;border-radius:50%}
+.home-main h1{font-size:clamp(32px,4.2vw,58px);font-weight:650;line-height:1.22;letter-spacing:-2px;margin:16px 0 12px}
+.home-main h1 strong{color:#237266;font-weight:inherit}
+#welcome p{margin:0 0 25px;color:#506862;font-size:15px}
+.home .composer-dock{position:static;padding:0;background:none}
+.home #form{padding:19px;border-radius:16px;box-shadow:0 6px 20px #29524b0a;border-color:#b6cec3}
+.home #question{min-height:74px;font-size:16px}
+.home #submit{background:#18695e;font-size:14px}
+.home .composer-note{font-size:11px;color:#587068}
+.home-main h2{font-size:20px;line-height:1.4;margin:0 0 15px;letter-spacing:-.5px}
+.home-examples{margin-top:24px}
+.home-examples h2{font-size:13px;margin:0 0 9px;color:#51675f}
+.home .examples{display:flex;flex-wrap:wrap;gap:7px}
+.home .examples button,#home-areas a{font-size:12px;line-height:1.55;border-radius:20px;border:1px solid #d5e2db;padding:6px 12px;background:#ffffffb8;color:#36574e;text-decoration:none}
+.home .examples button:hover,#home-areas a:hover{border-color:#75a999;background:#fff;transform:none}
+.home-links,.lower-grid{margin-top:28px}
+.shortcut-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.shortcut-grid a,.lower-grid section{background:white;border:1px solid #dce6e0;border-radius:15px}
+.shortcut-grid a{padding:18px 14px;display:flex;gap:11px;text-decoration:none;color:inherit;align-items:center}
+.shortcut-grid a:hover{border-color:#8eb3a4}
+.shortcut-grid i{background:#e2f1e9;color:#287762;border-radius:10px;padding:9px;display:grid}
+.shortcut-grid a:nth-child(2) i{color:#466a89;background:#e9eff7}
+.shortcut-grid a:nth-child(3) i{color:#746190;background:#f0ebf6}
+.shortcut-grid a:nth-child(4) i{color:#966c37;background:#f8f1e6}
+.shortcut-grid svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.shortcut-grid b{font-size:16px}.shortcut-grid small{display:block;color:#667a72;font-size:12px}.shortcut-grid em{font-style:normal;margin-left:auto;color:#749486}
+.lower-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}
+.lower-grid section{padding:22px}
+#home-areas{display:flex;flex-wrap:wrap;gap:6px}
+#home-recent{font-size:13px;color:#61766b}
+#home-recent button,.home-footer button{border:0;background:transparent;color:#326957}
+#home-recent button{display:block;text-align:left;padding:3px}
+.home-footer{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#61766b;padding-top:20px}
+.home-main:has(#welcome[hidden]) .landing-only{display:none}
+.home-main:has(#welcome[hidden]) .query-hero{background:transparent;border:none;padding:0}
+@media(max-width:950px){.shortcut-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.home-main{padding:14px 12px 24px}.query-hero{border-radius:16px;padding:20px 15px}.home .composer-controls{flex-wrap:wrap;gap:8px}.home .composer-options{flex-wrap:wrap}.home #submit{margin-left:auto}.home #form{padding:12px}.home .composer-note{justify-content:start}.home .examples button{font-size:12px;padding:5px 9px}.shortcut-grid{gap:8px}.shortcut-grid a{padding:13px 10px;gap:7px}.shortcut-grid i{padding:6px}.shortcut-grid em{display:none}.shortcut-grid small{font-size:10px}.lower-grid{grid-template-columns:1fr}.lower-grid section{padding:16px}.home-footer{flex-wrap:wrap}}
+
+.scope-row,#ask-areas{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.scope-row{margin:14px 0 0;color:#536d65;font-size:12px;gap:12px}
+.scope-chip{border:1px solid transparent;color:#405e56;background:transparent;padding:5px 9px;border-radius:6px;font-size:12px}
+.scope-chip:hover,.scope-chip[aria-pressed=true]{background:#fff;border-color:#b5d1c7;color:#135e50}
+.answer-actions{display:flex;gap:8px;margin-top:12px}.answer-actions button{border:1px solid #c5d8ce;background:white;border-radius:8px;padding:6px 13px;color:#225e51}

@@ -1,62 +1,27 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e43"><title>药物安全助手</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%20width%3D%2240%22%20height%3D%2240%22%20aria-hidden%3D%22true%22%3E%3Crect%20width%3D%2248%22%20height%3D%2248%22%20rx%3D%2211%22%20fill%3D%22%23e2f1e8%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2320584f%22%20stroke-width%3D%222.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cg%20transform%3D%22rotate%2842%2024%2023%29%22%3E%3Crect%20x%3D%2217%22%20y%3D%228%22%20width%3D%2214%22%20height%3D%2229%22%20rx%3D%227%22%2F%3E%3Cpath%20d%3D%22M17%2023h14m-10-7v-2%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M28%2038h9%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"><link rel="stylesheet" href="./static/style.css?v=home2"></head>
-<body>
-<aside class="sidebar">
-  <a class="brand" href="./" aria-label="药物安全助手首页"><span>药物安全助手<small>DRUG SAFETY ASSISTANT</small></span></a>
-  <a href="./workspace.html" class="about-button">药物研究工作台 ↗</a>
-  <button id="new-chat" class="new-chat"><span>＋</span> 开始新问答 <span>↗</span></button>
-  <div class="nav-label">专业知识领域</div>
-  <nav aria-label="选择文献领域">
-    <button data-category="" class="category selected" aria-pressed="true"><span class="nav-icon">◎</span><span>全部研究方向<small>跨领域检索与解释</small></span><span class="nav-dot"></span></button>
-    <button data-category="GLP-1" class="category" aria-pressed="false"><span class="nav-icon">G</span><span>GLP-1<small>代谢治疗 · 药物安全性</small></span><span class="nav-dot"></span></button>
-    <button data-category="PD-1/PD-L1" class="category" aria-pressed="false"><span class="nav-icon">P</span><span>PD-1 / PD-L1<small>免疫治疗 · irAE</small></span><span class="nav-dot"></span></button>
-    <button data-category="ADC" class="category" aria-pressed="false"><span class="nav-icon">A</span><span>ADC<small>抗体偶联药物 · 毒性</small></span><span class="nav-dot"></span></button>
-    <button data-category="EGFR" class="category" aria-pressed="false"><span>EGFR 靶向治疗<small>奥希替尼</small></span><span class="nav-dot"></span></button>
-    <button data-category="JAK" class="category" aria-pressed="false"><span>JAK 抑制剂<small>乌帕替尼</small></span><span class="nav-dot"></span></button>
-  </nav>
-  <nav aria-label="其他研究模块" class="research-links">
-    <a href="./workspace.html#safety-library">浏览安全知识库 ↗</a>
-    <a href="./workspace.html#explorer">药物全景 ↗</a>
-    <a href="./workspace.html#pipeline">研发管线 ↗</a>
-    <a href="./workspace.html#trials">临床研究 ↗</a>
-    <a href="./workspace.html#literature">文献证据 ↗</a>
-    <a href="./workspace.html#industry">产业情报 ↗</a>
-    <a href="./workspace.html#saved">我的研究 ↗</a>
-  </nav>
-  <div class="sidebar-note"><span class="tiny-orbit">✧</span><p>让每一次回答，<br>更接近证据。</p><small>原始证据检索 × DeepSeek</small></div>
-  <button id="settings" class="about-button">ⓘ 关于这个助手 <span>↗</span></button>
-</aside>
-<div class="app-shell">
-  <header class="topbar"><div><span class="status-dot"></span><span>药物安全助手</span><span class="beta">研究版</span></div><span id="status" role="status">连接知识库中</span></header>
-  <main id="main">
-    <section id="welcome" class="welcome">
-      <div class="eyebrow"><span></span> EVIDENCE MEETS INTELLIGENCE</div>
-
-      <h1>关于药物安全性，<br>一起找到<span>有依据的答案。</span></h1>
-      <p class="hero-copy">覆盖 GLP-1、PD-1/PD-L1、ADC、EGFR 和 JAK。<br>从研究文献出发，结合 AI 解释，帮你读懂风险与证据。</p>
-      <div class="capabilities"><span>⌕ 专业文献检索</span><span>⌘ 知识融合回答</span><span>↗ 原文可追溯</span></div>
-      <div class="examples-heading">从一个问题开始 <span>也可以在下方自由提问</span></div>
-      <div class="examples">
-        <button data-question="司美格鲁肽与 NAION 风险有哪些研究证据？"><span class="topic">GLP-1 <i>代谢治疗</i></span><strong>司美格鲁肽与 NAION<br>有哪些风险证据？</strong><span class="example-arrow">↗</span></button>
-        <button data-question="帕博利珠单抗与心肌炎有什么关联？"><span class="topic">PD-1 <i>免疫治疗</i></span><strong>如何理解帕博利珠单抗<br>与心肌炎的关联？</strong><span class="example-arrow">↗</span></button>
-        <button data-question="T-DXd 与 ILD 风险及监测有哪些证据？"><span class="topic">ADC <i>抗体偶联药物</i></span><strong>T-DXd 的间质性肺病风险<br>与监测有哪些证据？</strong><span class="example-arrow">↗</span></button>
-        <button data-question="奥希替尼的美国说明书如何描述间质性肺病风险？"><span class="topic">EGFR</span><strong>奥希替尼 · 间质性肺病</strong><span class="example-arrow">↗</span></button>
-        <button data-question="乌帕替尼的美国说明书如何描述严重感染风险？"><span class="topic">JAK</span><strong>乌帕替尼 · 严重感染</strong><span class="example-arrow">↗</span></button>
-      </div>
-    </section>
-    <section id="conversation" aria-label="问答记录" aria-live="polite"></section>
-  </main>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e43"><title>药物安全助手</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%20width%3D%2240%22%20height%3D%2240%22%20aria-hidden%3D%22true%22%3E%3Crect%20width%3D%2248%22%20height%3D%2248%22%20rx%3D%2211%22%20fill%3D%22%23e2f1e8%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2320584f%22%20stroke-width%3D%222.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Cg%20transform%3D%22rotate%2842%2024%2023%29%22%3E%3Crect%20x%3D%2217%22%20y%3D%228%22%20width%3D%2214%22%20height%3D%2229%22%20rx%3D%227%22%2F%3E%3Cpath%20d%3D%22M17%2023h14m-10-7v-2%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M28%2038h9%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"><link rel="stylesheet" href="./static/style.css?v=home2"><link rel="stylesheet" href="./static/home-ia.css"><link rel="stylesheet" href="./static/navigation.css"></head>
+<body class="home"><drug-navigation></drug-navigation>
+<main id="main" class="home-main">
+<section class="query-hero">
+<header id="welcome"><div class="home-label"><span></span> 药物安全问答</div><h1>药物安全，<strong>智能查询</strong></h1><p>从药物信息到不良反应，从临床研究到医学文献，为药物安全研究提供一站式智能支持。</p></header>
+<section id="conversation" aria-live="polite" aria-label="问答记录"></section>
   <div class="composer-dock">
     <form id="form">
       <label class="sr-only" for="question">输入药物安全性问题</label>
-      <textarea id="question" maxlength="2000" rows="2" placeholder="想了解哪种药物或不良反应？输入具体问题…" required></textarea>
-      <div class="composer-controls"><div class="composer-options"><label class="fallback-option"><input id="allow-model" type="checkbox" checked><span>AI 知识补充</span></label><button id="filter-toggle" type="button" class="filter-toggle" aria-expanded="false">筛选文献 <span>⌄</span></button><span id="scope">全部领域</span></div><button id="submit" type="submit" aria-label="发送问题">发送 <span>↑</span></button></div>
+      <textarea id="question" maxlength="2000" rows="2" placeholder="请输入药物名称、不良反应或你想研究的问题……" required></textarea>
+      <div class="composer-controls"><div class="composer-options"><label class="fallback-option"><input id="allow-model" type="checkbox" checked><span>AI 知识补充</span></label><button id="filter-toggle" type="button" class="filter-toggle" aria-expanded="false">筛选文献 <span>⌄</span></button><span id="scope" class="sr-only">全部领域</span></div><button id="submit" type="submit" aria-label="发送问题">发送 <span>↑</span></button></div>
       <div id="filters" hidden><label>发表年份 <input id="year-from" type="number" min="1900" max="2100" placeholder="起始年" aria-label="起始年份"> — <input id="year-to" type="number" min="1900" max="2100" placeholder="结束年" aria-label="结束年份"></label><span>仅筛选文献来源</span></div>
     </form>
     <div class="composer-note"><span id="message" role="status">回答供研究参考，不替代专业诊疗建议。</span><span class="keyboard-hint">Enter 发送 · Shift + Enter 换行</span></div>
   </div>
-</div>
-<dialog id="dialog"><form method="dialog"><span class="eyebrow">ABOUT THIS ASSISTANT</span><h2>从文献出发，让问题更清楚。</h2><p>药物安全助手检索 GLP-1、PD-1 / PD-L1、ADC、EGFR 和 JAK 相关药物的安全性资料。优先检索已有文献，再由 DeepSeek 组织回答；有出处的结论附引用，点开可查看原文和 PDF 页码。</p><p>知识库未覆盖的部分允许模型补充，并在对应段落标注“知识补充”。这些内容没有经过当前文献库核验，也不是实时联网信息。引用与逐字引文检查不等于医学结论已获验证。</p><p>等待区展示实际处理阶段，不展示模型内部推理。本版本在浏览器中按关键词和药物别名检索，不运行原版向量模型。每次提问请写明药物与问题；本页保留本次问答记录，刷新后清空。</p><div id="connection-options" hidden><label for="api-url">后端地址</label><input id="api-url" type="url" placeholder="https://your-api.example.com"><button id="save" value="save">保存连接</button></div><button value="cancel" class="dialog-close">知道了</button></form></dialog>
-<script src="./static/config.js?v=126d5b24" defer></script><script src="./static/static-client.mjs" type="module"></script><script src="./static/app.js?brand=text&amp;v=home2" defer></script>
+<div class="scope-row"><span>问答范围</span><div id="ask-areas" role="group" aria-label="问答检索范围"><button type="button" class="scope-chip" data-category="" aria-pressed="true">全部领域</button></div></div><div class="home-examples landing-only"><h2>试试这样问</h2><div class="examples"><button type="button" data-question="司美格鲁肽有哪些严重不良反应？">司美格鲁肽有哪些严重不良反应？</button><button type="button" data-question="GLP-1 类药物与胰腺炎风险有关吗？">GLP-1 类药物与胰腺炎风险有关吗？</button><button type="button" data-question="帕博利珠单抗相关心肌炎有哪些研究证据？">帕博利珠单抗相关心肌炎有哪些研究证据？</button><button type="button" data-question="ADC 相关间质性肺病的发生率是多少？">ADC 相关间质性肺病的发生率是多少？</button><button type="button" data-question="奥希替尼有哪些主要安全风险？">奥希替尼有哪些主要安全风险？</button></div></div>
+</section>
+<section class="landing-only home-links"><h2>快捷入口</h2><div class="shortcut-grid"><a href="./workspace.html#explorer"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6a3 3 0 0 1 2 2 3 3 0 0 1 2-2h6v14h-6a3 3 0 0 0-2 2 3 3 0 0 0-2-2H4z M12 7v14"/></svg></i><span><b>药物查询</b><small>查看药物与作用靶点</small></span><em>↗</em></a><a href="./workspace.html#safety-library"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h12m0-3 3 3-3 3 M6 17h15m-12-3-3 3 3 3"/></svg></i><span><b>不良反应</b><small>检索药物风险证据</small></span><em>↗</em></a><a href="./workspace.html#trials"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8m-6 0v6L4 19q-1 2 2 2h12q3 0 2-2L14 9V3 M8 14h8"/></svg></i><span><b>临床研究</b><small>查找临床试验记录</small></span><em>↗</em></a><a href="./workspace.html#literature"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z M14 3v5h4 M9 12h6m-6 4h5"/></svg></i><span><b>文献资料</b><small>浏览原始研究文献</small></span><em>↗</em></a></div></section>
+<div class="landing-only lower-grid"><section><h2>研究领域</h2><div id="home-areas"></div></section>
+<section><h2>最近查询</h2><div id="home-recent"></div></section></div>
+<footer class="home-footer"><span id="status" role="status">连接知识库中</span><div><button id="new-chat">开始新问答</button><button id="settings">关于助手</button></div></footer></main>
+<script type="module" src="./static/navigation.mjs"></script><script type="module" src="./static/home-ui.mjs"></script>
+<dialog id="dialog"><form method="dialog"><span class="eyebrow">ABOUT THIS ASSISTANT</span><h2>从文献出发，让问题更清楚。</h2><p>问答默认跨领域检索。你也可以在提问前限定研究领域。优先检索已有文献，再由 DeepSeek 组织回答；有出处的结论附引用，点开可查看原文和 PDF 页码。</p><p>知识库未覆盖的部分允许模型补充，并在对应段落标注“知识补充”。这些内容没有经过当前文献库核验，也不是实时联网信息。引用与逐字引文检查不等于医学结论已获验证。</p><p>等待区展示实际处理阶段，不展示模型内部推理。本版本在浏览器中按关键词和药物别名检索，不运行原版向量模型。同一次对话可以追问，开始新问答或刷新后会清除对话上下文。最近问题与主动收藏的回答保存在当前浏览器，请勿输入个人病历。</p><div id="connection-options" hidden><label for="api-url">后端地址</label><input id="api-url" type="url" placeholder="https://your-api.example.com"><button id="save" value="save">保存连接</button></div><button value="cancel" class="dialog-close">知道了</button></form></dialog>
+<script src="./static/config.js?v=126d5b24" defer></script><script src="./static/static-client.mjs" type="module"></script><script src="./static/app.js?v=ia3" defer></script>
 </body></html>

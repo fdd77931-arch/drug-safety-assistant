@@ -1,0 +1,42 @@
+[
+  {
+    "label": "GLP-1",
+    "category": "GLP-1",
+    "description": "GLP-1 受体激动剂",
+    "drugIds": [
+      "semaglutide"
+    ]
+  },
+  {
+    "label": "PD-1 / PD-L1",
+    "category": "PD-1/PD-L1",
+    "description": "免疫检查点抑制剂",
+    "drugIds": [
+      "pembrolizumab"
+    ]
+  },
+  {
+    "label": "ADC",
+    "category": "ADC",
+    "description": "抗体偶联药物",
+    "drugIds": [
+      "trastuzumab-deruxtecan"
+    ]
+  },
+  {
+    "label": "EGFR",
+    "category": "EGFR",
+    "description": "EGFR 靶向治疗",
+    "drugIds": [
+      "osimertinib"
+    ]
+  },
+  {
+    "label": "JAK",
+    "category": "JAK",
+    "description": "JAK 抑制剂",
+    "drugIds": [
+      "upadacitinib"
+    ]
+  }
+]

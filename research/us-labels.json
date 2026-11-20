@@ -1,0 +1,47 @@
+{
+  "semaglutide": {
+    "title": "OZEMPIC",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=adec4fd2-6858-4c99-91d4-531f5f2a2d79",
+    "jurisdiction": "美国",
+    "status": "该品牌在美国已获批",
+    "mechanism": "激动 GLP-1 受体，以葡萄糖依赖的方式促进胰岛素分泌、降低胰高血糖素分泌。",
+    "indications": "配合饮食和运动，改善成人 2 型糖尿病患者的血糖控制。",
+    "checked": "2026-11-20"
+  },
+  "pembrolizumab": {
+    "title": "KEYTRUDA",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9333c79b-d487-4538-a9f0-71b91a02b287",
+    "jurisdiction": "美国",
+    "status": "该品牌在美国已获批",
+    "mechanism": "抗体结合 PD-1，阻断其与配体的相互作用。",
+    "indications": "用于不可切除或转移性黑色素瘤。",
+    "checked": "2026-11-20"
+  },
+  "trastuzumab-deruxtecan": {
+    "title": "ENHERTU",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7e67e73e-ddf4-4e4d-8b50-09d7514910b6",
+    "jurisdiction": "美国",
+    "status": "该品牌在美国已获批",
+    "mechanism": "靶向 HER2 的抗体偶联药物，携带拓扑异构酶 I 抑制剂。",
+    "indications": "用于符合既往治疗条件的不可切除或转移性 HER2 阳性乳腺癌成人患者，详见第 1 节。",
+    "checked": "2026-11-20"
+  },
+  "osimertinib": {
+    "title": "TAGRISSO",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5e81b4a7-b971-45e1-9c31-29cea8c87ce7",
+    "jurisdiction": "美国",
+    "status": "该品牌在美国已获批",
+    "mechanism": "抑制特定突变型 EGFR 的酪氨酸激酶活性。",
+    "indications": "可用于经检测存在 EGFR 外显子 19 缺失或外显子 21 L858R 突变的成人非小细胞肺癌术后辅助治疗。",
+    "checked": "2026-11-20"
+  },
+  "upadacitinib": {
+    "title": "RINVOQ",
+    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2966aec7-2ef0-923c-d8ff-fe1a957bf095",
+    "jurisdiction": "美国",
+    "status": "该品牌在美国已获批",
+    "mechanism": "通过抑制 Janus 激酶（JAK）调节细胞因子信号。",
+    "indications": "用于对一种或多种 TNF 阻断剂应答不足或不耐受的中重度活动性类风湿关节炎成人患者。",
+    "checked": "2026-11-20"
+  }
+}

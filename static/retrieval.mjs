@@ -58,3 +58,23 @@ export class BrowserSearch {
   return {question:request.question,terms:found,results,candidate_count:ranked.length,elapsed_seconds:Number(((performance.now()-start)/1000).toFixed(3)),retrieval_method:'browser-bm25-aliases'};
  }
 }
+
+export function resolveTopic(question, drugs, aliases, previous) {
+ const named = terms(question,aliases).drugs;
+ const normalize = text => text.toLowerCase().replace(/[－‐‑–-]/g,'');
+ const mentions = value => normalize(question).includes(normalize(value));
+ let matched = drugs.filter(d => [d.name,d.generic,...d.aliases].some(mentions));
+ if (!named.length && !matched.length) matched = drugs.filter(d =>
+   [...d.conditions,...d.targets].some(mentions) ||
+   (d.targets.includes('GLP-1R') && /glp[- ]?1/i.test(question)));
+ const follow = previous && !matched.length && !named.length &&
+   /它|该药|这种|这些|上述|上面|前者|后者|其中|刚才|上次|那|呢|再讲|继续|详细|具体|依据|出处|哪些研究|有何证据|发生率|怎么监测|如何监测/.test(question);
+ if (follow) matched = previous.matched;
+ const broadClass = /类药物|抑制剂|激动剂|抗体偶联药物/.test(question) && !named.length;
+ const names = broadClass ? [] : matched.map(d => d.generic);
+ const context = follow ? '上轮问题：'+previous.question.slice(0,250)+'。已讨论：'+previous.summary.slice(0,320)+'。' : '';
+ const resolved = question + (names.length ? '（目录匹配：'+names.join('、')+'）' : '');
+ return {matched,question,query:resolved + (follow ? ' '+previous.searchTerms : ''),
+   searchTerms:[...new Set([...names,...named,...(follow ? previous.searchTerms.split(' ') : []),...terms(question,aliases).events])].join(' '),
+   prompt:(context+'本轮问题：'+resolved+'。请简明回答，直接回应本轮问题。').slice(0,2000)};
+}

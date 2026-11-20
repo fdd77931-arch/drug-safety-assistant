@@ -8,6 +8,19 @@ export default {async fetch(request,env){
  if(origin!==env.ALLOWED_ORIGIN)return json({detail:'请从公开演示页面访问。'},403);
  if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
  const path=new URL(request.url).pathname;
+ if(path==='/literature' && request.method==='GET'){
+   const params=new URL(request.url).searchParams;
+   const term=(params.get('term')||'').trim();
+   if(!term || term.length>200)return json({detail:'请输入 1 至 200 字的文献检索词。'},400);
+   const upstream=new URL('https://www.ebi.ac.uk/europepmc/webservices/rest/search');
+   const query='('+term+') AND SRC:MED'+(params.get('scope')==='pmc'?' AND OPEN_ACCESS:Y AND IN_PMC:Y':'');
+   upstream.search=new URLSearchParams({query,format:'json',resultType:'core',pageSize:'8'});
+   try{
+     const result=await fetch(upstream,{signal:AbortSignal.timeout(12000),cf:{cacheTtl:300,cacheEverything:true}});
+     if(result.ok)return new Response(result.body,{headers:{...headers,'Content-Type':'application/json'}});
+   }catch{}
+   return json({detail:'在线文献来源暂时不可用。'},503);
+ }
  const provider=configuredProvider(env);
  if(path==='/health'&&request.method==='GET')return json({configured:!!provider,version:corpus.version});
  if(path!=='/ask'||request.method!=='POST')return json({detail:'接口不存在。'},404);

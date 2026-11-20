@@ -27,7 +27,7 @@ export async function ask(payload,onEvent,signal) {
  const started=performance.now();
  onEvent({stage:'retrieving',message:'正在浏览器中检索文献与药物别名'});
  const {corpus,search}=await load();
- const retrieval=search.query(payload);
+ const retrieval=search.query({...payload,question:payload.retrieval_question || payload.question});
  const endpoint=(window.EVIDENCE_API||'').replace(/\/$/,'');
  if(!endpoint) {
   onEvent({stage:'complete',result:{...retrieval,answer_status:'not_configured',claims:[],model_supplement:null,limitations:['文献检索可用，回答服务尚未连接。'],request_seconds:Number(((performance.now()-started)/1000).toFixed(2))}});

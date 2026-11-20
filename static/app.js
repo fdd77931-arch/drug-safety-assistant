@@ -1,5 +1,12 @@
 const $ = s => document.querySelector(s);
 let category = '', busy = false, turnCount = 0;
+let previous = null;
+const topicData = Promise.all([import('./retrieval.mjs'), ...['research/catalog.json','static/aliases.json'].map(path => fetch(path).then(r => r.json())), fetch('research/us-labels.json').then(r=>r.json()).catch(()=>({}))]).catch(() => null);
+function storeLocal(key, item, matches) {
+  const stored = JSON.parse(localStorage.getItem(key) || '[]');
+  const rest = Array.isArray(stored) ? stored.filter(x => !matches(x)) : [];
+  localStorage.setItem(key, JSON.stringify([item,...rest].slice(0,100)));
+}
 const pagesClient = window.PAGES_MODE ? import('./static-client.mjs') : null;
 const api = () => window.PAGES_MODE ? (window.EVIDENCE_API || '') : (localStorage.getItem('evidence-api') || window.EVIDENCE_API || '');
 const url = path => api().replace(/\/$/, '') + path;
@@ -17,20 +24,20 @@ async function health() {
 }
 $('.examples').querySelectorAll('button').forEach(b => b.onclick = () => {
   if (busy) return;
+  $('#ask-areas button[data-category=""]').click();
   $('#question').value = b.dataset.question;
   $('#form').requestSubmit();
 });
-document.querySelectorAll('.category').forEach(b => b.onclick = () => {
-  if (busy) return;
-  document.querySelectorAll('.category').forEach(x => {
-    x.classList.remove('selected'); x.setAttribute('aria-pressed', 'false');
-  });
-  b.classList.add('selected'); b.setAttribute('aria-pressed', 'true');
-  category = b.dataset.category; $('#scope').textContent = category || '全部领域';
+$('#ask-areas').addEventListener('click', event => {
+  const button = event.target.closest('button[data-category]');
+  if (!button || busy) return;
+  category = button.dataset.category;
+  for (const chip of $('#ask-areas').children) chip.setAttribute('aria-pressed', String(chip === button));
+  $('#scope').textContent = category || '全部领域';
 });
 $('#new-chat').onclick = () => {
   if (busy) return;
-  $('#conversation').replaceChildren(); $('#welcome').hidden = false;
+  previous = null; $('#conversation').replaceChildren(); $('#welcome').hidden = false;
   $('#question').value = ''; $('#question').focus();
   $('#message').textContent = '回答供研究参考，不替代专业诊疗建议。';
   window.scrollTo({top: 0});
@@ -89,7 +96,7 @@ function updateProgress(turn, event) {
     s.className = i < phase ? 'done' : i === phase ? 'active' : '';
   });
 }
-function show(data, turn) {
+function show(data, turn, topic) {
   turn.querySelector('.progress-panel')?.remove();
   turn.querySelector('.assistant-heading small').textContent = data.cached ? '已复用回答' : '回答完成';
   const content = node('div', undefined, 'answer-content');
@@ -144,6 +151,47 @@ function show(data, turn) {
     }
     sources.append(list); content.append(sources);
   }
+  const savedSources = [...sources.querySelectorAll('.source-card')]
+    .filter(card => cited.has(card.querySelector('.badge').textContent))
+    .map(card => ({title:card.querySelector('.source-title').textContent,url:card.querySelector('a').href}));
+  if (topic.matched.length) {
+    const refs = node('details', undefined, 'sources catalog-links');
+    refs.append(node('summary','药物档案、相关试验与文献'));
+    for (const d of topic.matched) {
+      const drugLink = node('a', d.name+' · 药物档案','pdf-link');
+      drugLink.href='./workspace.html?drug='+encodeURIComponent(d.id)+'#explorer';
+      const line=node('p');line.append(drugLink);refs.append(line);
+      const label=topic.labels?.[d.id];
+      if(label && /机制|靶点|适应[证症]|获批/.test(topic.question)){
+        const details=node('p',label.title+'（美国说明书） · '+(/机制|靶点/.test(topic.question)?label.mechanism:'代表性获批适应证：'+label.indications),'catalog-summary');
+        const source=node('a','核对药品标签','pdf-link');
+        source.href=label.url;source.target='_blank';source.rel='noopener';details.append(source);
+        content.append(details);savedSources.push({title:label.title+' · DailyMed',url:label.url});
+      }
+      if (d.trial && /试验|临床研究|终点|入组|样本量|受试者/.test(topic.question)) {
+        const t=d.trial;
+        const info=node('p',d.name+' · '+t.id+'，'+t.phases.join(' / ')+(t.enrollment?.count ? '，登记人数 '+t.enrollment.count+' 人' : '')+'。','catalog-summary');
+        const record=node('a','查看登记原文','pdf-link');record.href='https://clinicaltrials.gov/study/'+t.id;record.target='_blank';record.rel='noopener';info.append(record);content.append(info);
+      }
+      for (const ref of [
+        d.trial && {title:d.name+' · '+d.trial.title,url:'https://clinicaltrials.gov/study/'+d.trial.id},
+        d.article && {title:d.name+' · '+d.article.title,url:'https://pubmed.ncbi.nlm.nih.gov/'+d.article.id+'/'}
+      ].filter(Boolean)) {
+        const line=node('p'), a=node('a', ref.title,'pdf-link');
+        a.href=ref.url; a.target='_blank'; a.rel='noopener'; line.append(a); refs.append(line);
+        savedSources.push({title:'相关研究 · '+ref.title,url:ref.url});
+      }
+    }
+    content.append(refs);
+  }
+  const answer=[...content.querySelectorAll('.claim,.knowledge-inline,.answer-caveat,.catalog-summary')].map(p=>Array.from(p.childNodes,n=>n.classList?.contains('cite')?' ['+n.textContent+']':n.textContent).join('')).join('\n');
+  if (claims.length || data.model_supplement?.text || topic.matched.length) previous={...topic,summary:answer};
+  const item={question:topic.question,answer,sources:savedSources};
+  const actions=node('div',undefined,'answer-actions');
+  const copy=node('button','复制回答'), save=node('button','收藏回答');
+  copy.onclick=async()=>{try{await navigator.clipboard.writeText([item.question,answer,...savedSources.map(s=>s.title+' '+s.url)].join('\n'));copy.textContent='已复制';}catch{copy.textContent='复制失败，请选择文本复制';}};
+  save.onclick=()=>{try{storeLocal('drug-safety-answers-v1',item,x=>x.question===item.question && x.answer===answer);save.textContent='已收藏';}catch{save.textContent='保存失败';}};
+  actions.append(copy,save); content.append(actions);
   turn.append(content);
 }
 async function consumeStream(response, onEvent) {
@@ -191,8 +239,14 @@ $('#form').onsubmit = async e => {
     if (seconds > 30) $('#message').textContent = '仍在处理，专业文献检索与回答可能需要约一分钟。';
   }, 1000);
   try {
+    try { storeLocal('drug-safety-questions-v1',question,x=>x===question); window.dispatchEvent(new Event('drug-safety-history')); } catch {}
+    const resources=await topicData;
+    const topic=resources ? resources[0].resolveTopic(question,resources[1].drugs,resources[2],previous) : {question,query:question,prompt:question,matched:[],searchTerms:''};
+    topic.labels=resources?.[3];
+    payload.question=topic.prompt;
+    payload.retrieval_question=topic.query;
     if (pagesClient) {
-      await (await pagesClient).ask(payload, event => {if(event.stage === 'complete') show(event.result, turn); else updateProgress(turn,event);}, AbortSignal.timeout(240000));
+      await (await pagesClient).ask(payload, event => {if(event.stage === 'complete') show(event.result, turn, topic); else updateProgress(turn,event);}, AbortSignal.timeout(240000));
     } else {
     const r = await fetch(url('/ask?stream=true'), {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload), signal: AbortSignal.timeout(240000)});
     if (!r.ok) {
@@ -200,7 +254,7 @@ $('#form').onsubmit = async e => {
       throw Error(r.status === 429 ? (typeof detail === 'string' ? detail : '当前提问较多，请稍等片刻再试。') : r.status === 422 ? '请检查问题和年份条件。' : '服务暂时不可用，请稍后重试。');
     }
     await consumeStream(r, event => {
-      if (event.stage === 'complete') show(event.result, turn); else updateProgress(turn, event);
+      if (event.stage === 'complete') show(event.result, turn, topic); else updateProgress(turn, event);
     });
     }
     $('#message').textContent = '回答供研究参考，可点击引用核查原文。';

@@ -1,38 +1,26 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+<script src="./static/config.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101a23">
-<title>Drug Intelligence AI · 药物研究工作台</title>
-<link rel="stylesheet" href="./research/workspace.css?v=safety1">
-<script type="module" src="./research/workspace.js?v=home2"></script>
-<script type="module" src="./research/safety-library.js?v=home2"></script>
-</head>
+<meta name="theme-color" content="#f5f8f7">
+<title>药物库 · 药物安全助手</title>
+<link rel="stylesheet" href="./research/workspace.css?v=routes3">
+<script type="module" src="./research/workspace.js?v=routes4"></script>
+<script type="module" src="./research/safety-library.js?v=routes4"></script>
+<link rel="stylesheet" href="./static/navigation.css"><script type="module" src="./static/navigation.mjs"></script></head>
 <body>
-<aside>
-<a class="brand" href="#">Drug Intelligence AI<span>药物研究工作台</span></a>
-<nav aria-label="研究模块">
-<a href="#explorer">药物全景</a><a href="#pipeline">研发管线</a>
-<a href="#trials">临床研究</a><a href="#safety-library" class="safety-nav">药物安全</a>
-<a href="#literature">文献证据</a><a href="#industry">产业情报</a>
-<a href="#saved">我的研究</a>
-</nav>
-</aside>
+<drug-navigation></drug-navigation>
 <main>
-<header class="intro">
-<p class="product-label">Drug Intelligence AI</p>
-<h1>查药物风险，<br>回到原始证据</h1>
-<p>检索药物或不良反应，直接打开文献片段和 PDF 页码。</p>
-<div class="links"><a class="primary" href="#safety-library">检索安全知识库</a><a href="./">药物安全问答 ↗</a></div>
-</header>
-<section id="safety-library" aria-labelledby="safety-title">
-<h2 id="safety-title">药物安全知识库</h2>
+<section hidden id="safety-library" aria-labelledby="safety-title">
+<h1 id="safety-title">安全信息</h1>
 <p>覆盖 GLP-1、PD-1 / PD-L1、ADC、EGFR 和 JAK。可按领域浏览，也可用药物名、不良事件或 DOI 检索。</p>
+<p>文献类型按标题中的研究设计标记。相互作用和特殊人群信息可按关键词检索原文，尚未形成完整的配伍、孕哺期或肝肾功能用药清单。</p>
 <form id="evidence-form" class="evidence-form">
 <div><label for="evidence-query">药物、风险事件或 DOI</label><input id="evidence-query" type="search" maxlength="200" placeholder="例如 司美格鲁肽 NAION"></div>
 <div><label for="evidence-area">研究领域</label><select id="evidence-area"><option value="">全部领域</option><option>GLP-1</option><option>PD-1/PD-L1</option><option>ADC</option><option>EGFR</option><option>JAK</option></select></div>
-<button type="submit">检索证据</button>
+<div><label for="evidence-type">证据类型</label><select id="evidence-type"><option value="">全部类型</option><option value="label">药品说明书</option><option value="review">综述</option><option value="case">病例报告</option><option value="signal">药物警戒研究</option><option value="trial">临床试验</option><option value="observational">观察性研究</option><option value="study">其他研究文献</option></select></div><button type="submit">检索证据</button>
 </form>
 <div id="evidence-examples" class="links">
 <button type="button" data-evidence="司美格鲁肽 NAION">司美格鲁肽 · NAION</button>
@@ -44,17 +32,17 @@
 <p id="evidence-status" role="status"></p>
 <div id="evidence-results"></div>
 </section>
-<div class="catalog-search">
+<section hidden id="explorer"><h1>药物库</h1><p>按药物名称、靶点或研究人群检索，查看药品资料与监管来源。</p><div class="catalog-search">
 <label for="search">搜索药物、商品名、靶点、研究适应证或登记号</label>
 <input id="search" type="search" placeholder="例如 Keytruda、EGFR 或 NCT03548935">
 <p id="status" role="status">正在读取数据…</p>
 </div>
-<section id="explorer"><h2>药物全景</h2><div id="drugs" class="cards"></div><div id="profile" tabindex="-1"></div></section>
-<section id="pipeline"><h2>研发管线</h2><p>状态与阶段来自所选试验登记。</p><div id="pipeline-data"></div></section>
-<section id="trials"><h2>临床研究</h2><div id="trial-data"></div></section>
-<section id="literature"><h2>文献证据</h2><div id="papers"></div></section>
-<section id="industry"><h2>产业情报</h2><p>首版提供监管查询入口。审批动态和授权合作数据待接入。</p><div class="links"><a href="https://www.accessdata.fda.gov/scripts/cder/daf/">Drugs@FDA ↗</a><a href="https://www.ema.europa.eu/en/medicines/download-medicine-data">EMA 药品数据 ↗</a><a href="https://www.nmpa.gov.cn/datasearch/home-index.html">NMPA 数据查询 ↗</a></div></section>
-<section id="saved"><h2>我的研究</h2><p>收藏与报告草稿保存在当前浏览器。</p><h3>收藏与最近研究</h3><div id="library"></div><div id="saved-evidence"></div><h3>研究报告草稿</h3><div id="reports"></div><label for="draft">编辑当前草稿</label><textarea id="draft" rows="9"></textarea><div class="links"><button type="button" id="save-report">保存当前草稿</button><button type="button" id="download">导出 Markdown</button></div><p id="save-status" role="status"></p></section>
+<div id="drug-filters" class="filters"></div><div id="drugs" class="cards"></div><a href="#industry">监管查询入口 →</a><div id="profile" tabindex="-1"></div></section>
+<section hidden id="pipeline"><h2>研发管线</h2><p>状态与阶段来自所选试验登记。</p><div id="pipeline-data"></div></section>
+<section hidden id="trials"><h1>临床研究</h1><p>检索试验登记，比较研究设计、主要终点与已公开结果。</p><label>检索临床试验<input type="search" id="trial-search" placeholder="药物、研究标题或 NCT 登记号"></label><div id="trial-filters" class="filters"></div><a href="#pipeline">查看所选研究的管线资料 →</a><div id="trial-list"></div><div id="trial-data"></div></section>
+<section hidden id="literature"><h1>文献资料</h1><p>检索研究文献与开放全文，按研究类型筛选并收藏来源。</p><form id="online-form" class="record"><h2>在线文献检索</h2><div class="evidence-form"><label>检索词<input id="online-query" required maxlength="240" type="search" placeholder="例如 semaglutide retinopathy"></label><label>检索范围<select id="online-scope"><option value="med">PubMed 收录文献</option><option value="pmc">PMC 开放全文</option></select></label><button>在线检索</button></div><small>由 Europe PMC 提供，按相关性显示前 8 项。</small><p id="online-status" role="status"></p><div id="online-results"></div></form><h2>本地资料</h2><label>检索文献<input type="search" id="paper-search" placeholder="文献标题、药物、PMID 或 DOI"></label><label>资料类型<select id="paper-type"><option value="">全部类型</option></select></label><div id="paper-list"></div></section>
+<section hidden id="industry"><h2>产业情报</h2><p>首版提供监管查询入口。审批动态和授权合作数据待接入。</p><div class="links"><a href="https://www.accessdata.fda.gov/scripts/cder/daf/">Drugs@FDA ↗</a><a href="https://www.ema.europa.eu/en/medicines/download-medicine-data">EMA 药品数据 ↗</a><a href="https://www.nmpa.gov.cn/datasearch/home-index.html">NMPA 数据查询 ↗</a></div></section>
+<section hidden id="saved"><h1>我的收藏</h1><div id="personal"></div><button id="export-all">导出全部研究记录</button><p>收藏与报告草稿保存在当前浏览器。</p><h3>收藏与最近研究</h3><div id="library"></div><div id="saved-evidence"></div><h3>研究报告草稿</h3><div id="reports"></div><label id="draft-label" for="draft">编辑当前草稿</label><textarea id="draft" rows="9"></textarea><div class="links"><button type="button" id="save-report">保存当前草稿</button><button type="button" id="download">导出 Markdown</button></div><p id="save-status" role="status"></p></section>
 <footer>供科学研究与产品演示。临床使用请核对正式来源。</footer>
 </main>
 </body>
