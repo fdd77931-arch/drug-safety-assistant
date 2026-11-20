@@ -246,10 +246,24 @@ let onlineResults=[];
 let onlineRequest;
 function onlineCard(p){
   const card=el('article','','record'),actions=el('div','','record-actions');
-  card.append(el('small',[p.journal,p.date,...p.types].filter(Boolean).join(' · ')),el('h3',p.title));
-  actions.append(link('PubMed · '+p.pmid+' ↗',p.url));
+  card.append(el('small',[p.journal,p.date,p.doi?'DOI '+p.doi:'',...p.types].filter(Boolean).join(' · ')),el('h3',p.title));
+  if(p.pmid)actions.append(link('PubMed · '+p.pmid+' ↗',p.url));
   if(p.pmcUrl)actions.append(link('PMC · '+p.pmcid+' ↗',p.pmcUrl));
-  if(p.abstract){const details=el('details');details.append(el('summary','查看摘要'),el('p',p.abstract));card.append(details);}
+  const abstractBox=el('details');
+  const body=el('p',p.abstract||'正在读取 PubMed 摘要…');
+  abstractBox.append(el('summary','查看摘要'),body);if(p.abstract||p.pmid)card.append(abstractBox);
+  abstractBox.addEventListener('toggle',async()=>{
+    if(!abstractBox.open || p.abstract || abstractBox.dataset.loading)return;
+    abstractBox.dataset.loading='1';
+    try{
+      const response=await fetch(window.EVIDENCE_API+'/abstract?pmid='+encodeURIComponent(p.pmid),{signal:AbortSignal.timeout(15000)});
+      if(!response.ok)throw Error();
+      const xml=new DOMParser().parseFromString(await response.text(),'application/xml');
+      const parts=[...xml.querySelectorAll('Article > Abstract > AbstractText')].map(x=>(x.getAttribute('Label')?x.getAttribute('Label')+' · ':'')+x.textContent.trim());
+      body.textContent=parts.join('\n') || '该 PubMed 记录未提供摘要。';
+    }catch{body.textContent='摘要暂时无法载入，可打开下方 PubMed 原文。';}
+    finally{delete abstractBox.dataset.loading;}
+  });
   const stored=saved.onlinePapers.some(record=>record.id===p.id);
   actions.append(button(stored?'移除在线文献':'收藏在线文献',()=>{
     saved.onlinePapers=stored?saved.onlinePapers.filter(record=>record.id!==p.id):[...saved.onlinePapers,p];
@@ -266,7 +280,7 @@ $('online-form').onsubmit=async event=>{
   onlineRequest?.abort();
   const controller=new AbortController();onlineRequest=controller;
   const timeout=setTimeout(()=>controller.abort(),20000);
-  onlineResults=[];renderOnline();$('online-status').textContent='正在查询 Europe PMC…';
+  onlineResults=[];renderOnline();$('online-status').textContent='正在查询文献数据库…';
   try{
     const found=await searchPapers(term,$('online-scope').value,controller.signal);
     if(onlineRequest!==controller)return;

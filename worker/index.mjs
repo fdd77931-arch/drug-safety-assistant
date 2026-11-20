@@ -1,6 +1,7 @@
 import corpus from '../corpus/corpus.json' with {type:'json'};
 import {validateRequest,selectEvidence,generate} from './core.mjs';
 import {configuredProvider,complete} from './provider.mjs';
+import {lookup,abstract} from './literature.mjs';
 export {Quota} from './quota.mjs';
 export default {async fetch(request,env){
  const origin=request.headers.get('Origin'),headers={'Access-Control-Allow-Origin':env.ALLOWED_ORIGIN,'Vary':'Origin','Access-Control-Allow-Methods':'POST, GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type'};
@@ -12,14 +13,13 @@ export default {async fetch(request,env){
    const params=new URL(request.url).searchParams;
    const term=(params.get('term')||'').trim();
    if(!term || term.length>200)return json({detail:'请输入 1 至 200 字的文献检索词。'},400);
-   const upstream=new URL('https://www.ebi.ac.uk/europepmc/webservices/rest/search');
-   const query='('+term+') AND SRC:MED'+(params.get('scope')==='pmc'?' AND OPEN_ACCESS:Y AND IN_PMC:Y':'');
-   upstream.search=new URLSearchParams({query,format:'json',resultType:'core',pageSize:'8'});
-   try{
-     const result=await fetch(upstream,{signal:AbortSignal.timeout(12000),cf:{cacheTtl:300,cacheEverything:true}});
-     if(result.ok)return new Response(result.body,{headers:{...headers,'Content-Type':'application/json'}});
-   }catch{}
+   try{return json(await lookup(term,params.get('scope')));}catch{}
    return json({detail:'在线文献来源暂时不可用。'},503);
+ }
+ if(path==='/abstract' && request.method==='GET'){
+   const id=new URL(request.url).searchParams.get('pmid');
+   if(!/^\d{1,12}$/.test(id||''))return json({detail:'PMID 无效'},400);
+   try{const r=await abstract(id);return new Response(r.body,{headers:{...headers,'Content-Type':'application/xml; charset=utf-8'}});}catch{return json({detail:'摘要暂时不可用'},503);}
  }
  const provider=configuredProvider(env);
  if(path==='/health'&&request.method==='GET')return json({configured:!!provider,version:corpus.version});

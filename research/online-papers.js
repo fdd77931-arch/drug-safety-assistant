@@ -15,13 +15,14 @@ export async function searchPapers(term,scope,signal) {
   const data=await response.json();
   const results=data.resultList.result.flatMap(item=>{
     const pmid=String(item.pmid||'');
-    if(!/^\d+$/.test(pmid))return [];
+
     const pmcid=/^PMC\d+$/.test(item.pmcid)?item.pmcid:'';
+    if(!/^\d+$/.test(pmid) && !pmcid)return [];
     const plain=value=>String(value||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
-    return [{id:'MED:'+pmid,title:plain(item.title),pmid,pmcid,doi:item.doi||'',
+    return [{id:pmid?'MED:'+pmid:pmcid,title:plain(item.title),pmid,pmcid,doi:item.doi||'',
       journal:item.journalInfo?.journal?.title||'',date:item.firstPublicationDate||item.pubYear,
       abstract:plain(item.abstractText),types:item.pubTypeList?.pubType||[],
-      url:'https://pubmed.ncbi.nlm.nih.gov/'+pmid+'/',pmcUrl:pmcid?'https://pmc.ncbi.nlm.nih.gov/articles/'+pmcid+'/':''}];
+      url:pmid?'https://pubmed.ncbi.nlm.nih.gov/'+pmid+'/':'',pmcUrl:pmcid?'https://pmc.ncbi.nlm.nih.gov/articles/'+pmcid+'/':''}];
   });
   return {total:data.hitCount,results};
 }
